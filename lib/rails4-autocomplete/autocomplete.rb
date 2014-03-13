@@ -67,13 +67,18 @@ module Rails4Autocomplete
       options[:limit] ||= 10
     end
 
+    # Returns the tables to be included with the query
+    def get_autocomplete_includes(options)
+      options[:includes]
+    end
+
     # Returns parameter model_sym as a constant
     #
     #   get_object(:actor)
     #   # returns a Actor constant supposing it is already defined
     #
     def get_object(model_sym)
-      object = model_sym.to_s.camelize.constantize
+      model_sym.to_s.camelize.constantize
     end
 
     #

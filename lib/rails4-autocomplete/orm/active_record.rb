@@ -9,15 +9,15 @@ module Rails4Autocomplete
       end
 
       def get_autocomplete_items(parameters)
-        model   = parameters[:model]
-        term    = parameters[:term]
-        method  = parameters[:method]
-        options = parameters[:options]
-        scopes  = Array(options[:scopes])
-        where   = options[:where]
-        limit   = get_autocomplete_limit(options)
-        order   = get_autocomplete_order(method, options, model)
-
+        model    = parameters[:model]
+        term     = parameters[:term]
+        method   = parameters[:method]
+        options  = parameters[:options]
+        scopes   = Array(options[:scopes])
+        where    = options[:where]
+        limit    = get_autocomplete_limit(options)
+        order    = get_autocomplete_order(method, options, model)
+        includes = get_autocomplete_includes(options)
 
         items = model.all
 
@@ -27,6 +27,7 @@ module Rails4Autocomplete
         items = items.where(get_autocomplete_where_clause(model, term, method, options)).
             limit(limit).order(order)
         items = items.where(where) unless where.blank?
+        items = items.includes(includes) unless includes.blank?
 
         items
       end
